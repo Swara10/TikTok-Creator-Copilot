@@ -261,12 +261,9 @@ By helping creators ideate faster and post higher-quality content more consisten
 
 ## 🎬 Demo
 
-### Live Demo
-[Add link to deployed demo if available]
 
 ### Presentation Materials
 - **Slides**: See `presentation.html` - 9-slide TikTok-styled presentation
-- **Script**: See `presentation_script.md` - Complete 5-minute speaking script
 - **Video**: [Add link to recorded demo if available]
 
 ---
@@ -332,10 +329,10 @@ This project is created for educational and assessment purposes.
 
 ## 👤 Author
 
-**Your Name**
+**Swara Vedak**
 - AI Product Manager Candidate
-- [LinkedIn](your-linkedin-url)
-- [Email](your-email@example.com)
+- [LinkedIn](https://www.linkedin.com/in/swara-vedak/)
+- [Email](vedakswara@gmail.com)
 
 ---
 
@@ -350,7 +347,7 @@ This project is created for educational and assessment purposes.
 ## 📞 Contact & Support
 
 For questions or feedback about this project:
-- **Email**: your-email@example.com
+- **Email**: vedakswara@gmail.com
 - **Issues**: [GitHub Issues](https://github.com/yourusername/tiktok-creator-copilot/issues)
 
 ---
