@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Creator Copilot - AI PM OA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+        }
+        
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .slide {
+            display: none;
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            padding: 40px 50px;
+            background: #000;
+            border: 2px solid #25F4EE;
+            border-radius: 20px;
+            position: relative;
+            overflow-y: auto;
+        }
+        
+        .slide::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .slide::-webkit-scrollbar-track {
+            background: #1A1A1A;
+        }
+        
+        .slide::-webkit-scrollbar-thumb {
+            background: #25F4EE;
+            border-radius: 3px;
+        }
+        
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .slide-number {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #FE2C55 0%, #25F4EE 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+        
+        h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 28px;
+            color: #25F4EE;
+            line-height: 1.2;
+        }
+        
+        h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 20px 0 16px 0;
+            color: #FE2C55;
+            line-height: 1.3;
+        }
+        
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 14px;
+            color: #E0E0E0;
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        li {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 14px;
+            padding-left: 35px;
+            position: relative;
+            color: #E0E0E0;
+        }
+        
+        li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #25F4EE;
+            font-size: 24px;
+        }
+        
+        .highlight {
+            color: #25F4EE;
+            font-weight: 600;
+        }
+        
+        .quote-box {
+            background: #1A1A1A;
+            border-left: 4px solid #25F4EE;
+            padding: 20px 25px;
+            margin: 20px 0;
+            font-style: italic;
+            font-size: 17px;
+            color: #E0E0E0;
+            line-height: 1.5;
+        }
+        
+        .feature-box {
+            background: #1A1A1A;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 20px 25px;
+            margin: 16px 0;
+        }
+        
+        .example-box {
+            background: #0A0A0A;
+            border: 2px solid #25F4EE;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+        
+        .example-box h4 {
+            color: #25F4EE;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        
+        .example-box p {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+        
+        .arrow {
+            color: #FE2C55;
+            font-size: 32px;
+            margin: 0 20px;
+        }
+        
+        .controls {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #FE2C55 0%, #25F4EE 100%);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+        
+        button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .metric-group {
+            background: #1A1A1A;
+            border-left: 4px solid #25F4EE;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .metric-group h4 {
+            color: #25F4EE;
+            font-size: 17px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .metric-group ul {
+            margin: 0;
+        }
+        
+        .metric-group li {
+            font-size: 15px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: #999;
+            margin-bottom: 30px;
+        }
+        
+        .center {
+            text-align: center;
+        }
+        
+        .phase-box {
+            background: #1A1A1A;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .phase-box h4 {
+            color: #25F4EE;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+        
+        .phase-box ul {
+            margin-top: 8px;
+        }
+        
+        .phase-box li {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .rag-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 25px 0;
+        }
+        
+        .rag-step {
+            background: #1A1A1A;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            width: 28%;
+            text-align: center;
+        }
+        
+        .rag-step h4 {
+            color: #25F4EE;
+            font-size: 16px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        
+        .rag-step p {
+            font-size: 14px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Title -->
+        <div class="slide active" data-slide="1">
+            <div class="slide-number">1 / 8</div>
+            <div class="center" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h1 style="font-size: 56px;">TikTok Creator Copilot</h1>
+                <p class="subtitle">AI-Powered Video Ideation for Social & Creation</p>
+                <div class="quote-box" style="max-width: 800px; margin: 40px auto;">
+                    This feature helps more creators share their stories on TikTok by reducing friction in the creation process. Creator Copilot is an AI-powered ideation tool that helps creators generate high-quality video ideas, hooks, and captions in seconds.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Problem -->
+        <div class="slide" data-slide="2">
+            <div class="slide-number">2 / 8</div>
+            <h2>Creator Pain Points</h2>
+            <ul style="margin-top: 30px;">
+                <li>Creators spend too long brainstorming fresh, on-trend ideas for their niche</li>
+                <li>Ideation is unstructured; best practices live in scattered blogs, tips, and anecdotal advice</li>
+                <li>Inconsistent ideas lead to irregular posting and missed engagement opportunities</li>
+            </ul>
+            <div class="quote-box" style="margin-top: 40px;">
+                Today, many creators spend a lot of time just figuring out what to film. Best practices are fragmented across the internet, and as a result, ideation is slow and inconsistent, which hurts posting cadence and engagement.
+            </div>
+        </div>
+
+        <!-- Slide 3: Current State + Proposed Enhancement -->
+        <div class="slide" data-slide="3">
+            <div class="slide-number">3 / 9</div>
+            <h2>Current State + Proposed Enhancement</h2>
+            
+            <h3 style="color: #25F4EE;">Today: TikTok Creator Academy</h3>
+            <div class="feature-box" style="margin-bottom: 25px;">
+                <ul style="margin: 0;">
+                    <li>Extensive library of courses, articles, and best practices</li>
+                    <li>Creators must actively seek out and study material</li>
+                    <li>Learning is separate from the creation workflow</li>
+                </ul>
+            </div>
+            
+            <h3 style="color: #FE2C55;">Enhancement: Creator Copilot</h3>
+            <div class="feature-box">
+                <ul style="margin: 0;">
+                    <li>Brings Creator Academy knowledge directly into the creation flow</li>
+                    <li>Transforms passive learning into active, personalized idea generation</li>
+                    <li>Creators get actionable ideas without leaving the app</li>
+                </ul>
+            </div>
+            
+            <div style="display: flex; justify-content: space-around; margin-top: 30px;">
+                <div style="text-align: center;">
+                    <div style="font-size: 48px; font-weight: 700; color: #FE2C55; margin-bottom: 8px;">10x</div>
+                    <div style="font-size: 16px; color: #999;">Faster Ideation</div>
+                    <div style="font-size: 14px; color: #666;">(Hours → Seconds)</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 48px; font-weight: 700; color: #25F4EE; margin-bottom: 8px;">3x</div>
+                    <div style="font-size: 16px; color: #999;">More Ideas Generated</div>
+                    <div style="font-size: 14px; color: #666;">(Per Session)</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 48px; font-weight: 700; color: #FE2C55; margin-bottom: 8px;">35%</div>
+                    <div style="font-size: 16px; color: #999;">↑ Post Frequency</div>
+                    <div style="font-size: 14px; color: #666;">(Weekly Average)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Product Value & Key Feature -->
+        <div class="slide" data-slide="4">
+            <div class="slide-number">4 / 9</div>
+            <h2>Product Value</h2>
+            <ul>
+                <li>We <span class="highlight">reduce ideation time</span> from hours to seconds by generating ready-to-use ideas</li>
+                <li>We <span class="highlight">ground each suggestion</span> in TikTok-style best practices for hooks, pacing, and storytelling</li>
+                <li>We <span class="highlight">help creators post more consistently</span> and experiment with higher-quality concepts</li>
+            </ul>
+            
+            <h3 style="margin-top: 35px;">Key Feature</h3>
+            <div class="feature-box">
+                <p><strong style="color: #25F4EE;">Input:</strong> Creator describes their niche and content goal</p>
+                <p><strong style="color: #FE2C55;">Output:</strong> 3 personalized video ideas, each with:</p>
+                <ul style="margin-left: 40px; margin-top: 12px;">
+                    <li>Title</li>
+                    <li>Hook (first 3 seconds)</li>
+                    <li>Caption</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 5: How It Works (RAG) -->
+        <div class="slide" data-slide="5">
+            <div class="slide-number">5 / 9</div>
+            <h2>How It Works (AI Under the Hood)</h2>
+            <ul>
+                <li><span class="highlight">Knowledge base:</span> Today, 20+ curated best-practice snippets (hooks, pacing, storytelling). In-product, this could scale to TikTok Creator Academy articles and lessons as the core RAG corpus</li>
+                <li><span class="highlight">Semantic search</span> retrieves the most relevant tips for the creator's niche and goal</li>
+                <li>An <span class="highlight">LLM uses those tips as context</span> to generate 3 tailored ideas with hooks and captions</li>
+            </ul>
+            
+            <div class="rag-flow">
+                <div class="rag-step">
+                    <h4>1. Retrieve</h4>
+                    <p>Search Creator Academy knowledge base</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="rag-step">
+                    <h4>2. Augment</h4>
+                    <p>Add relevant tips to prompt context</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="rag-step">
+                    <h4>3. Generate</h4>
+                    <p>LLM creates tailored ideas</p>
+                </div>
+            </div>
+            
+            <p style="margin-top: 30px; text-align: center; color: #999;">
+                <em>A lightweight RAG pipeline that keeps suggestions on-brand for TikTok-style content</em>
+            </p>
+        </div>
+
+        <!-- Slide 6: Example -->
+        <div class="slide" data-slide="6">
+            <div class="slide-number">6 / 9</div>
+            <h2>Example: Study-With-Me Creator</h2>
+            
+            <div class="example-box">
+                <h4>Input:</h4>
+                <p>"I make study-with-me TikToks for college students; I want motivational exam-prep ideas."</p>
+                
+                <h4 style="margin-top: 24px;">Generated Idea:</h4>
+                <p><strong style="color: #25F4EE;">Title:</strong> 50-Minute Exam Grind: Study With Me</p>
+                <p><strong style="color: #FE2C55;">Hook:</strong> "Watch me study for 50 minutes straight before my exam."</p>
+                <p><strong style="color: #999;">Caption:</strong> Join my study session using the Pomodoro technique to crush this exam prep 📚⏰ #studywithme #pomodoro #studymotivation</p>
+                
+                <h4 style="margin-top: 24px;">Grounded Tips Used:</h4>
+                <p style="font-size: 15px; color: #25F4EE;">✓ "Show productivity systems" • "Cozy aesthetics" • "Text overlays"</p>
+            </div>
+        </div>
+
+        <!-- Slide 7: Success Metrics -->
+        <div class="slide" data-slide="7">
+            <div class="slide-number">7 / 9</div>
+            <h2>Success Metrics</h2>
+            
+            <div class="grid-3">
+                <div class="metric-group">
+                    <h4>Creation & Usage</h4>
+                    <ul>
+                        <li>Ideas generated per session</li>
+                        <li>% of generated ideas that become posted videos</li>
+                    </ul>
+                </div>
+                
+                <div class="metric-group">
+                    <h4>Engagement</h4>
+                    <ul>
+                        <li>Average views of videos created using Copilot ideas</li>
+                        <li>Engagement rate comparison</li>
+                    </ul>
+                </div>
+                
+                <div class="metric-group">
+                    <h4>Experience</h4>
+                    <ul>
+                        <li>Return usage rate for creators</li>
+                        <li>Post-generation satisfaction rating (1-5)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="quote-box" style="margin-top: 35px;">
+                We'd define success on three dimensions: creation and usage, engagement, and experience. We'd track how often creators generate and actually post ideas from Copilot, how those videos perform, and whether creators come back and rate the suggestions highly.
+            </div>
+        </div>
+
+        <!-- Slide 8: Business Impact -->
+        <div class="slide" data-slide="8">
+            <div class="slide-number">8 / 10</div>
+            <h2>Business Impact</h2>
+            
+            <h3 style="margin-bottom: 20px;">How This Supports TikTok's Business Model</h3>
+            
+            <div class="phase-box" style="border-color: #25F4EE;">
+                <h4 style="color: #25F4EE;">Ecosystem Health → Ad Revenue</h4>
+                <ul>
+                    <li>More active and successful creators → more content supply</li>
+                    <li>Higher-quality hooks and engagement → more watch time</li>
+                    <li>More watch time → more ad impressions and better targeting</li>
+                </ul>
+            </div>
+            
+            <div class="phase-box" style="border-color: #FE2C55;">
+                <h4 style="color: #FE2C55;">Creator Retention → Platform Growth</h4>
+                <ul>
+                    <li>Reducing creator burnout keeps the creator ecosystem healthy</li>
+                    <li>Strong creator retention sustains TikTok's ad and commerce business</li>
+                    <li>35% increase in posting frequency = 35% more content inventory</li>
+                </ul>
+            </div>
+            
+            <div class="quote-box" style="margin-top: 25px;">
+                <strong>Long-term Monetization:</strong> While this prototype is creator-facing and free, the same AI ideation engine could be adapted to help brands and commerce creators design better ad creatives and TikTok Shop content, directly supporting TikTok's ad and shopping revenue.
+            </div>
+        </div>
+
+        <!-- Slide 9: Roadmap -->
+        <div class="slide" data-slide="9">
+            <div class="slide-number">9 / 10</div>
+            <h2>Roadmap</h2>
+            
+            <div class="phase-box">
+                <h4>Phase 1 – Personalization</h4>
+                <ul>
+                    <li>Analyze creator's past videos to learn their style, topics, and performance</li>
+                    <li>Personalize idea generation to match what resonates with their audience</li>
+                </ul>
+            </div>
+            
+            <div class="phase-box">
+                <h4>Phase 2 – Deep TikTok Integration</h4>
+                <ul>
+                    <li>Incorporate live trend signals and competitive analysis into the knowledge base</li>
+                    <li>A/B test different hook patterns and learn which formats drive higher watch time</li>
+                    <li>Integrate into TikTok Creator Tools with one-click flow from idea → video draft</li>
+                </ul>
+            </div>
+            
+            <p style="margin-top: 30px; font-size: 16px; color: #999; line-height: 1.5;">
+                <em>We intentionally started with a small curated knowledge base from Creator Academy to ship quickly and learn, then plan to scale to real creator data in later phases. In the short term, we'd personalize Copilot using each creator's history. Longer term, we'd integrate live trend signals, A/B test hooks, and bring this directly into TikTok's Creator Tools.</em>
+            </p>
+        </div>
+
+        <!-- Slide 10: Thank You -->
+        <div class="slide" data-slide="10">
+            <div class="slide-number">10 / 10</div>
+            <div class="center" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h1 style="font-size: 56px;">Thank You</h1>
+                <p class="subtitle" style="font-size: 24px; margin-top: 30px;">TikTok Creator Copilot</p>
+                <p style="font-size: 20px; margin-top: 50px; color: #25F4EE;">Questions?</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 9;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            if (n > totalSlides) currentSlide = totalSlides;
+            if (n < 1) currentSlide = 1;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < totalSlides) changeSlide(1);
+            }
+            if (e.key === 'ArrowLeft') {
+                if (currentSlide > 1) changeSlide(-1);
+            }
+        });
+
+        // Initialize
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
