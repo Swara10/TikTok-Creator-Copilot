@@ -15,7 +15,7 @@ from typing import List, Dict
 # ============================================
 # 🔑 PUT YOUR API KEY HERE
 # ============================================
-ANTHROPIC_API_KEY = "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"  # ← REPLACE THIS WITH YOUR ACTUAL KEY
+ANTHROPIC_API_KEY = "s-key"  # ← REPLACE THIS WITH YOUR ACTUAL KEY
 # ============================================
 
 # Knowledge base of TikTok best practices
